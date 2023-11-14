@@ -1,0 +1,14 @@
+C:\Users\Pau Tudela\source\repos\ProyectoFicheros\bin\Debug\net7.0\ProyectoFicheros.exe
+C:\Users\Pau Tudela\source\repos\ProyectoFicheros\bin\Debug\net7.0\ProyectoFicheros.deps.json
+C:\Users\Pau Tudela\source\repos\ProyectoFicheros\bin\Debug\net7.0\ProyectoFicheros.runtimeconfig.json
+C:\Users\Pau Tudela\source\repos\ProyectoFicheros\bin\Debug\net7.0\ProyectoFicheros.dll
+C:\Users\Pau Tudela\source\repos\ProyectoFicheros\bin\Debug\net7.0\ProyectoFicheros.pdb
+C:\Users\Pau Tudela\source\repos\ProyectoFicheros\obj\Debug\net7.0\ProyectoFicheros.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Pau Tudela\source\repos\ProyectoFicheros\obj\Debug\net7.0\ProyectoFicheros.AssemblyInfoInputs.cache
+C:\Users\Pau Tudela\source\repos\ProyectoFicheros\obj\Debug\net7.0\ProyectoFicheros.AssemblyInfo.cs
+C:\Users\Pau Tudela\source\repos\ProyectoFicheros\obj\Debug\net7.0\ProyectoFicheros.csproj.CoreCompileInputs.cache
+C:\Users\Pau Tudela\source\repos\ProyectoFicheros\obj\Debug\net7.0\ProyectoFicheros.dll
+C:\Users\Pau Tudela\source\repos\ProyectoFicheros\obj\Debug\net7.0\refint\ProyectoFicheros.dll
+C:\Users\Pau Tudela\source\repos\ProyectoFicheros\obj\Debug\net7.0\ProyectoFicheros.pdb
+C:\Users\Pau Tudela\source\repos\ProyectoFicheros\obj\Debug\net7.0\ProyectoFicheros.genruntimeconfig.cache
+C:\Users\Pau Tudela\source\repos\ProyectoFicheros\obj\Debug\net7.0\ref\ProyectoFicheros.dll
