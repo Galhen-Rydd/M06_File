@@ -27,7 +27,7 @@
                 if(File.Exists(path))
                 {
                     Console.WriteLine("Starting summary...");
-                    Fichero file = new(path);
+                    FicheroDelta file = new(path);
                     try{
                         file.DoInfo();
                         Thread.Sleep(1000);
