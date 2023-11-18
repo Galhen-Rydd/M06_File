@@ -18,7 +18,7 @@ namespace ProyectoFicheros
     {
         private String path;
         private Dictionary<String, int> map = new Dictionary<String, int>();
-        private int delta = 3;
+        private int delta;
         private int count;
         private String[] invalid = { 
             "el", "els", "en", "es", "ets", "'l", "l'", "la", "les", "lo", "los", "n'", "na", "s'", "sa", "ses", "un", "una", "unes", "uns",
@@ -31,9 +31,10 @@ namespace ProyectoFicheros
             "va", "com", "van"
         };
         public FicheroDelta() { }
-        public FicheroDelta(String path) 
+        public FicheroDelta(String path, int delta) 
         {
             this.path = path;
+            this.delta = delta;
         }
 
         public void DoInfo()
@@ -95,7 +96,8 @@ namespace ProyectoFicheros
             string name = new FileInfo(this.path).Name.Replace(new FileInfo(this.path).Extension, "");
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
             xmlWriterSettings.Indent = true;
-            XmlWriter xmlWriter = XmlWriter.Create(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + "PFi" + "\\" + name + "_info.xml", xmlWriterSettings);
+            XmlWriter xmlWriter = XmlWriter.Create(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + "PFi" + "\\" + name + "_info.xml", 
+                xmlWriterSettings);
             
             xmlWriter.WriteStartDocument();
             xmlWriter.WriteStartElement("words");
@@ -165,7 +167,7 @@ namespace ProyectoFicheros
                         }
                     }
                 }
-                Console.WriteLine(this.count);
+                //Console.WriteLine(this.count);
             }
         }
         protected bool CheckDelta(String w)
@@ -174,7 +176,7 @@ namespace ProyectoFicheros
             {
                 if (entry.Key.Contains(w))
                 {
-                    Console.WriteLine(w + "; " + entry.Key + "; "+ (StringDiffNumber(w, entry) <= this.delta));
+                    //Console.WriteLine(w + "; " + entry.Key + "; "+ (StringDiffNumber(w, entry) <= this.delta));
                     if(StringDiffNumber(w, entry) <= this.delta)
                     {
                         int value;

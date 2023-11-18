@@ -14,9 +14,11 @@ using System.Xml.Linq;
 
 namespace ProyectoFicheros
 {
-    internal class Fichero
+    internal class FicheroParag
     {
         private String path;
+        private ArrayList maps = new ArrayList();
+        private ArrayList counts = new ArrayList();
         private Dictionary<String, int> map = new Dictionary<String, int>();
         private int count;
         private String[] invalid = { 
@@ -29,17 +31,18 @@ namespace ProyectoFicheros
             "encara", "endemés", "més", "encara", "fins", "tot", "malgrat", "encara", "sempre", "perquè", "menys", "aquesta", "ser", "es", "ha",
             "va", "com", "van"
         };
-        public Fichero() { }
-        public Fichero(String path) 
+        public FicheroParag() { }
+        public FicheroParag(String path) 
         {
             this.path = path;
         }
 
         public void DoInfo()
         {
-            this.GetFileContent();
+            this.GetFileContentParag();
             this.MakeInfoFile();
             this.MakeXML();
+            //Console.WriteLine("Here F");
         }
 
         public String GetPath()
@@ -60,20 +63,20 @@ namespace ProyectoFicheros
             }
         }
 
-        public Dictionary<string, int> GetMap()
+        public Dictionary<string, int> GetMaps()
         {
-            return this.map;
+            return this.GetMaps();
         }
 
-        protected IOrderedEnumerable<KeyValuePair<string, int>> SortMap()
+        protected IOrderedEnumerable<KeyValuePair<string, int>> SortMap(Dictionary<String, int> map)
         {
-            return from entry in this.map orderby entry.Value descending select entry;
+            return from entry in map orderby entry.Value descending select entry;
         }
 
-        protected string GetTheme()
+        protected string GetTheme(Dictionary<String, int> map)
         {
             string theme = "";
-            IOrderedEnumerable<KeyValuePair<string, int>> sorted = this.SortMap();
+            IOrderedEnumerable<KeyValuePair<string, int>> sorted = this.SortMap(map);
             for(int i = 0; i < 5; i++)
             {
                 theme += sorted.ElementAt(i).Key;
@@ -116,25 +119,32 @@ namespace ProyectoFicheros
         {
             string extension = new FileInfo(this.path).Extension;
             string name = new FileInfo(this.path).Name.Replace(extension, "");
-            string infoPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + "PFi" + "\\" + name + "_info.txt";
+            string infoPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + "PFi" + "\\" + name + "_info";
             DateTime modification = File.GetLastWriteTime(this.path);
 
-            if (File.Exists(infoPath))
+            int number_of_parag = 1;
+
+            foreach(Dictionary<String, int> map in this.maps)
             {
-                File.WriteAllText(infoPath, string.Empty);
-            }
-            using (StreamWriter sw = File.AppendText(infoPath))
-            {
-                sw.WriteLine("Nom del fixer: " + name);
-                sw.WriteLine("Extensió: " + extension);
-                sw.WriteLine("Data: " + modification.ToShortDateString());
-                sw.WriteLine("Número de paraules: " + this.count);
-                sw.WriteLine("Temàtica: " + this.GetTheme());
-                sw.Close();
+                //Console.WriteLine("Here "+ number_of_parag);
+                if (File.Exists(infoPath + "P" + number_of_parag + ".txt"))
+                {
+                    File.WriteAllText(infoPath + "P" + number_of_parag + ".txt", string.Empty);
+                }
+                using (StreamWriter sw = File.AppendText(infoPath + "P" + number_of_parag + ".txt"))
+                {
+                    sw.WriteLine("Nom del fixer: " + name);
+                    sw.WriteLine("Extensió: " + extension);
+                    sw.WriteLine("Data: " + modification.ToShortDateString());
+                    sw.WriteLine("Número de paraules: " + this.counts[number_of_parag-1]);
+                    sw.WriteLine("Temàtica: " + this.GetTheme(map));
+                    sw.Close();
+                }
+                number_of_parag++;
             }
         }
 
-        protected void GetFileContent()
+        protected void GetFileContentParag()
         {
             if (File.Exists(this.path))
             {
@@ -142,12 +152,15 @@ namespace ProyectoFicheros
                 this.count = 0;
                 foreach (String line in content.Split('\n'))
                 {
+                    Dictionary<String, int> Pmap = new Dictionary<String, int>();
+                    int Pcount = 0;
                     foreach (String word in line.Split())
                     {
                         String w2 = word.Replace(",", "").Replace(".", "").Replace("'l", "").Replace("l'", "").Replace("n'", "").Replace("s'", "").Replace("d'", "").ToLower();
                         if (!string.IsNullOrEmpty(w2))
                         {
                             this.count++;
+                            Pcount++;
                             if (!this.invalid.Contains(w2))
                             {
                                 if (map.ContainsKey(w2))
@@ -160,17 +173,27 @@ namespace ProyectoFicheros
                                 {
                                     map.Add(w2, 1);
                                 }
-                                /*
-                                foreach (KeyValuePair<string, int> entry in map)
+
+                                if (Pmap.ContainsKey(w2))
                                 {
-                                    Console.WriteLine(entry);
+                                    int value;
+                                    Pmap.TryGetValue(w2, out value);
+                                    Pmap[w2] = value + 1;
                                 }
-                                */
+                                else
+                                {
+                                    Pmap.Add(w2, 1);
+                                }
                             }
                         }
                     }
+                    if(Pmap.Count > 0)
+                    {
+                        maps.Add(Pmap);
+                        counts.Add(Pcount);
+                    }
+                    
                 }
-                Console.WriteLine(this.count);
             }
         }
     }

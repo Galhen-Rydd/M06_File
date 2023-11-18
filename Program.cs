@@ -17,8 +17,8 @@
             Console.WriteLine("Welcome to Pau's summarizer tool.\nEnter the URI of file to sumarize or enter 0 to exit: ");
             while(true)
             {
-                //String path = Console.ReadLine();
-                String path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\test.txt";
+                String path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + Console.ReadLine();
+                //String path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\test.txt";
                 if (path.Equals("0"))
                 {
                     Console.WriteLine("Exiting, thank you for choosing this program");
@@ -27,7 +27,7 @@
                 if(File.Exists(path))
                 {
                     Console.WriteLine("Starting summary...");
-                    FicheroDelta file = new(path);
+                    FicheroParag file = new(path);
                     try{
                         file.DoInfo();
                         Thread.Sleep(1000);
@@ -37,6 +37,10 @@
                         Console.WriteLine("There was a problem summarizing!");
                     }
                     break; // Eliminate or comment when finished
+                }
+                else
+                {
+                    Console.WriteLine("Invalid file location.");
                 }
             }
         }
