@@ -16,10 +16,10 @@ namespace ProyectoFicheros
 {
     internal class Fichero
     {
-        private String path;
-        private Dictionary<String, int> map = new Dictionary<String, int>();
-        private int count;
-        private String[] invalid = { 
+        protected String path;
+        protected Dictionary<String, int> map = new Dictionary<String, int>();
+        protected int count;
+        protected String[] invalid = { 
             "el", "els", "en", "es", "ets", "'l", "l'", "la", "les", "lo", "los", "n'", "na", "s'", "sa", "ses", "un", "una", "unes", "uns",
             "a", "amb", "arran", "cap", "contra", "d'", "dalt", "damunt", "davall", "de", "deçà", "dellà", "des", "devers", "devora",
             "dintre", "durant", "en", "entre", "envers", "excepte", "fins", "llevat", "malgrat", "mitjançant", "per", "pro", "salvant", "salvat",
@@ -35,11 +35,23 @@ namespace ProyectoFicheros
             this.path = path;
         }
 
-        public void DoInfo()
+        public virtual void DoInfo()
         {
-            this.GetFileContent();
-            this.MakeInfoFile();
-            this.MakeXML();
+            try
+            {
+                this.GetFileContent();
+                this.MakeInfoFile();
+                this.MakeXML();
+                Thread.Sleep(1000);
+                Console.WriteLine("The file was summarized successfully");
+                Console.ReadLine();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("There was a problem summarizing!");
+                Console.ReadLine();
+            }
+            
         }
 
         public String GetPath()
@@ -112,7 +124,7 @@ namespace ProyectoFicheros
             xmlWriter.Close();
         }
 
-        protected void MakeInfoFile()
+        protected virtual void MakeInfoFile()
         {
             string extension = new FileInfo(this.path).Extension;
             string name = new FileInfo(this.path).Name.Replace(extension, "");
@@ -134,7 +146,7 @@ namespace ProyectoFicheros
             }
         }
 
-        protected void GetFileContent()
+        protected virtual void GetFileContent()
         {
             if (File.Exists(this.path))
             {
@@ -160,17 +172,10 @@ namespace ProyectoFicheros
                                 {
                                     map.Add(w2, 1);
                                 }
-                                /*
-                                foreach (KeyValuePair<string, int> entry in map)
-                                {
-                                    Console.WriteLine(entry);
-                                }
-                                */
                             }
                         }
                     }
                 }
-                Console.WriteLine(this.count);
             }
         }
     }

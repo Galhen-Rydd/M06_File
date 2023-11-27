@@ -16,11 +16,11 @@ namespace ProyectoFicheros
 {
     internal class FicheroDelta
     {
-        private String path;
-        private Dictionary<String, int> map = new Dictionary<String, int>();
-        private int delta;
-        private int count;
-        private String[] invalid = { 
+        protected String path;
+        protected Dictionary<String, int> map = new Dictionary<String, int>();
+        protected int delta; // New
+        protected int count;
+        protected String[] invalid = { 
             "el", "els", "en", "es", "ets", "'l", "l'", "la", "les", "lo", "los", "n'", "na", "s'", "sa", "ses", "un", "una", "unes", "uns",
             "a", "amb", "arran", "cap", "contra", "d'", "dalt", "damunt", "davall", "de", "deçà", "dellà", "des", "devers", "devora",
             "dintre", "durant", "en", "entre", "envers", "excepte", "fins", "llevat", "malgrat", "mitjançant", "per", "pro", "salvant", "salvat",
@@ -39,9 +39,20 @@ namespace ProyectoFicheros
 
         public void DoInfo()
         {
-            this.GetFileContent();
-            this.MakeInfoFile();
-            this.MakeXML();
+            try
+            {
+                this.GetFileContent();
+                this.MakeInfoFile();
+                this.MakeXML();
+                Thread.Sleep(1000);
+                Console.WriteLine("The file was summarized successfully");
+                Console.ReadLine();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("There was a problem summarizing!");
+                Console.ReadLine();
+            }
         }
 
         public String GetPath()
@@ -136,7 +147,7 @@ namespace ProyectoFicheros
             }
         }
 
-        protected void GetFileContent()
+        protected void GetFileContent() //Mod
         {
             if (File.Exists(this.path))
             {
